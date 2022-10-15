@@ -1,0 +1,87 @@
+service: serverless-crud-api
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  region: us-east-1
+  deploymentMethod: direct
+  environment:
+    tableName: serverless-crud
+
+# you can add statements to the Lambda function's IAM Role here
+#  iam:
+#    role:
+#      statements:
+#        - Effect: "Allow"
+#          Action:
+#            - "s3:ListBucket"
+#          Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
+
+# you can define service wide environment variables here
+#  environment:
+#    variable1: value1
+
+plugins:
+  - serverless-iam-roles-per-function
+
+functions:
+  createBook:
+    handler: src/create-book.handler
+    iamRoleStatements:
+      - Effect: "Allow"        
+        Action:
+          - dynamodb:PutItem        
+        Resource: !GetAtt CrudDynamoDBTable.Arn
+    events:
+      - http:
+          path: /books
+          method: post
+          cors: true
+
+  getBooks:
+    handler: get-books.handler
+    events:
+      - http:
+          path: /books
+          method: get
+          cors: true
+
+  getBook:
+    handler: get-book.handler
+    events:
+      - http:
+          path: /books/{id}
+          method: get
+          cors: true
+
+  updateBook:
+    handler: create-book.handler
+    events:
+      - http:
+          path: /books/{id}
+          method: put
+          cors: true
+
+  deleteBook:
+    handler: create-book.handler
+    events:
+      - http:
+          path: /books/{id}
+          method: delete
+          cors: true
+
+resources:
+  Resources:
+    CrudDynamoDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        BillingMode: PAY_PER_REQUEST
+        TableName: serverless-crud-table
+        AttributeDefinitions:
+          - AttributeName: "bookId"
+            AttributeType: "S"
+        KeySchema:
+          - AttributeName: "bookId"
+            KeyType: "HASH"

@@ -1,0 +1,21 @@
+{
+  "name": "serverless-crud-api",
+  "version": "1.0.0",
+  "description": "Restful serverless CRUD",
+  "author": "Manjula Jayawardana",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.188.0",
+    "@aws-sdk/lib-dynamodb": "^3.188.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "serverless-iam-roles-per-function": "^3.2.0"
+  }
+}
