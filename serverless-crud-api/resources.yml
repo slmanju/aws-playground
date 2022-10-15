@@ -1,0 +1,11 @@
+CrudDynamoDBTable:
+  Type: AWS::DynamoDB::Table
+  Properties:
+    BillingMode: PAY_PER_REQUEST
+    TableName: serverless-crud-table
+    AttributeDefinitions:
+      - AttributeName: "bookId"
+        AttributeType: "S"
+    KeySchema:
+      - AttributeName: "bookId"
+        KeyType: "HASH"

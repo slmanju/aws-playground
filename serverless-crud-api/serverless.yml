@@ -8,20 +8,7 @@ provider:
   region: us-east-1
   deploymentMethod: direct
   environment:
-    tableName: serverless-crud
-
-# you can add statements to the Lambda function's IAM Role here
-#  iam:
-#    role:
-#      statements:
-#        - Effect: "Allow"
-#          Action:
-#            - "s3:ListBucket"
-#          Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
-
-# you can define service wide environment variables here
-#  environment:
-#    variable1: value1
+    tableName: serverless-crud-table
 
 plugins:
   - serverless-iam-roles-per-function
@@ -73,15 +60,4 @@ functions:
           cors: true
 
 resources:
-  Resources:
-    CrudDynamoDBTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        BillingMode: PAY_PER_REQUEST
-        TableName: serverless-crud-table
-        AttributeDefinitions:
-          - AttributeName: "bookId"
-            AttributeType: "S"
-        KeySchema:
-          - AttributeName: "bookId"
-            KeyType: "HASH"
+  Resources: ${file(resources.yml)}
