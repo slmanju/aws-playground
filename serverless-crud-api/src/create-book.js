@@ -4,13 +4,13 @@ import { PutCommand } from "@aws-sdk/lib-dynamodb";
 import { v4 as uuidv4 } from 'uuid';
 
 import { response } from "./utils.js";
-import { ddbDocClient } from "./database.js";
+import { ddbDocClient, CRUD_TABLE_NAME } from "./database.js";
 
 export const handler = async (event) => {
   try {
     const body = JSON.parse(event.body);
     const params = {
-      TableName: "serverless-crud-table",
+      TableName: CRUD_TABLE_NAME,
       Item: {
         bookId: uuidv4(),
         title: body.title,

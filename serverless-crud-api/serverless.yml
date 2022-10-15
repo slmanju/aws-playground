@@ -8,7 +8,7 @@ provider:
   region: us-east-1
   deploymentMethod: direct
   environment:
-    tableName: serverless-crud-table
+    CRUD_TABLE_NAME: !Ref crudDynamoDBTable
 
 plugins:
   - serverless-iam-roles-per-function
@@ -20,7 +20,7 @@ functions:
       - Effect: "Allow"        
         Action:
           - dynamodb:PutItem        
-        Resource: !GetAtt CrudDynamoDBTable.Arn
+        Resource: !GetAtt crudDynamoDBTable.Arn
     events:
       - http:
           path: /books
