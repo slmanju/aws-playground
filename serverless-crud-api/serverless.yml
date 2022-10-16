@@ -3,7 +3,7 @@ frameworkVersion: "3"
 
 provider:
   name: aws
-  runtime: nodejs14.x
+  runtime: nodejs16.x
   stage: dev
   region: us-east-1
   deploymentMethod: direct
@@ -17,7 +17,7 @@ functions:
   createBook:
     handler: src/create-book.handler
     iamRoleStatements:
-      - Effect: "Allow"        
+      - Effect: Allow
         Action:
           - dynamodb:PutItem        
         Resource: !GetAtt crudDynamoDBTable.Arn
@@ -28,7 +28,12 @@ functions:
           cors: true
 
   getBooks:
-    handler: get-books.handler
+    handler: src/get-books.handler
+    iamRoleStatements:
+      - Effect: Allow     
+        Action:
+          - dynamodb:Scan        
+        Resource: !GetAtt crudDynamoDBTable.Arn
     events:
       - http:
           path: /books
@@ -36,7 +41,12 @@ functions:
           cors: true
 
   getBook:
-    handler: get-book.handler
+    handler: src/get-book.handler
+    iamRoleStatements:
+      - Effect: Allow     
+        Action:
+          - dynamodb:GetItem        
+        Resource: !GetAtt crudDynamoDBTable.Arn
     events:
       - http:
           path: /books/{id}
@@ -44,7 +54,12 @@ functions:
           cors: true
 
   updateBook:
-    handler: create-book.handler
+    handler: src/update-book.handler
+    iamRoleStatements:
+      - Effect: Allow     
+        Action:
+          - dynamodb:UpdateItem        
+        Resource: !GetAtt crudDynamoDBTable.Arn
     events:
       - http:
           path: /books/{id}
@@ -52,7 +67,12 @@ functions:
           cors: true
 
   deleteBook:
-    handler: create-book.handler
+    handler: src/delete-book.handler
+    iamRoleStatements:
+      - Effect: Allow     
+        Action:
+          - dynamodb:DeleteItem        
+        Resource: !GetAtt crudDynamoDBTable.Arn
     events:
       - http:
           path: /books/{id}
