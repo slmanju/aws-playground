@@ -1,0 +1,37 @@
+service: s3-lambda-trigger
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  stage: ${file(config.json):STAGE}
+  region: ${file(config.json):REGION}
+  environment:
+    REGION: ${file(config.json):REGION}
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "s3:GetObject"
+            - "s3:GetObjectVersion"
+          Resource:
+            - "arn:aws:s3:::${file(config.json):S3_BUCKET}/*"
+
+functions:
+  s3Trigger:
+    handler: src/s3-trigger.handler
+    events:
+      - s3:
+          bucket: ${file(config.json):S3_BUCKET}
+          event: s3:ObjectCreated:*
+          existing: true
+          rules:
+            - suffix: .json
+
+resources:
+  Resources:
+    S3Bucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${file(config.json):S3_BUCKET}
