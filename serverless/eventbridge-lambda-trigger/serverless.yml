@@ -1,0 +1,15 @@
+service: eventbridge-lambda-trigger
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  stage: dev
+  region: us-east-1
+
+functions:
+  scheduledReport:
+    handler: src/report-generator.handler
+    events:
+      - eventBridge:
+          schedule: rate(2 minutes)

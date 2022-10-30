@@ -1,0 +1,13 @@
+{
+  "name": "eventbridge-lambda-trigger",
+  "version": "1.0.0",
+  "author": "Manjula Jayawardana",
+  "description": "Scheduled event trigger with EventBridge and Lambda",
+  "main": "handler.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "license": "ISC"
+}
