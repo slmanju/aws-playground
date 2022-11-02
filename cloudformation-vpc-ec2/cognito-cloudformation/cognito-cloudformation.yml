@@ -1,0 +1,51 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Cognito Stack
+
+Resources:
+  MyWebAppUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: my-web-app-user-pool
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 6
+      UsernameAttributes:
+        - email
+      VerificationMessageTemplate:
+        DefaultEmailOption: CONFIRM_WITH_CODE
+      AutoVerifiedAttributes:
+        - email
+      EmailConfiguration:
+        EmailSendingAccount: COGNITO_DEFAULT
+      Schema:
+        - AttributeDataType: String
+          Mutable: False
+          Name: email
+          Required: True
+        - AttributeDataType: String
+          Mutable: True
+          Name: name
+          Required: True
+
+  MyWebAppUserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      UserPoolId: !Ref MyWebAppUserPool
+      ClientName: my-web-app
+      GenerateSecret: True
+      CallbackURLs:
+        - http://localhost:8585
+      AllowedOAuthFlows:
+        - code
+      AllowedOAuthFlowsUserPoolClient: True
+      AllowedOAuthScopes:
+        - openid
+        - email
+      SupportedIdentityProviders:
+        - COGNITO
+
+  MyWebAppUserPoolDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      UserPoolId: !Ref MyWebAppUserPool
+      Domain: my-web-app-aslkdjs2349slj

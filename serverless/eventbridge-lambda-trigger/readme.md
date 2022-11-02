@@ -2,6 +2,7 @@
 ```
 mkdir eventbridge-lambda-trigger
 cd eventbridge-lambda-trigger
+serverless create --template aws-nodejs
 npm init -y
 ```
 
