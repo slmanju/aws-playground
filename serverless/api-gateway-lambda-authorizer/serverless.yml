@@ -1,0 +1,21 @@
+service: api-gateway-lambda-authorizer
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  stage: dev
+  region: us-east-1
+
+functions:
+  getNotes:
+    handler: src/notes.handler
+    events:
+    - http:
+        path: /notes
+        method: get
+        cors: true
+        authorizer: notesAuthorizer
+
+  notesAuthorizer:
+    handler: src/authorizer.handler

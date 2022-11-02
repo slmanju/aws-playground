@@ -1,0 +1,13 @@
+{
+  "name": "api-gateway-lambda-authorizer",
+  "version": "1.0.0",
+  "author": "Manjula Jayawardana",
+  "description": "Secure API using lambda authorizer",
+  "main": "handler.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "license": "ISC"
+}
